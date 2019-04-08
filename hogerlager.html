@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hoger/Lager spelletje</title>
+    <script src="https://cdn.jsdelivr.net/npm/ractive"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ractive-events-keys@0.2.1/dist/ractive-events-keys.min.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script id="template" type="text/ractive">
+        <h1>HOGER OF LAGER</h1>
+        <input type="number" name="nummer" on-enter="checknumber"><br>
+        <h3>{{result}}</h3><br>
+        <h2>pogingen: {{poging}}</h2><br>
+        <h2>high score: {{highscore}}</h2>
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const ractive = new Ractive({
+            el: '#container',
+            template: '#template',
+            data: {
+                poging: 0,
+                result: "",
+                highscore: 0,
+                number: Math.floor(Math.random() * 100)
+            }
+        });
+
+        ractive.on({
+            checknumber: function (e){
+                if (e.node.value > ractive.get('number')){
+                    ractive.set("result", "lager");
+                    ractive.set("poging", ractive.get('poging') + 1);
+
+                }
+                else if(e.node.value < ractive.get('number')){
+                    ractive.set("result", "hoger");
+                    ractive.set("poging", ractive.get('poging') + 1);
+                }
+                else {
+                    ractive.set("result", "WIN!");
+                    ractive.set("highscore", ractive.get('poging'));
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
