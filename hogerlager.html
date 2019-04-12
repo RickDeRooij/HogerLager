@@ -14,7 +14,7 @@
         <h3>{{result}}</h3><br>
         <h2>pogingen: {{poging}}</h2><br>
         <h2>high score: {{highscore}}</h2>
-    </script>
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
@@ -24,7 +24,7 @@
             data: {
                 poging: 0,
                 result: "",
-                highscore: 0,
+                highscore: sessionStorage.getItem('highscore'),
                 number: Math.floor(Math.random() * 100)
             }
         });
@@ -42,7 +42,11 @@
                 }
                 else {
                     ractive.set("result", "WIN!");
+                }
+
+                if (ractive.get('result') === "WIN!" && sessionStorage.getItem('highscore') > ractive.get('poging')){
                     ractive.set("highscore", ractive.get('poging'));
+                    sessionStorage.setItem('highscore', ractive.get('poging'));
                 }
             }
         });
